@@ -21,7 +21,19 @@ import java.util.HashMap;
  */
 public class OsuSkinCustomizer extends JFrame
 {
-	private String[] ADDON_TYPES = { "Osu_Note", "Taiko_Note", "Mania_Note" };
+	private final int OSU_INDEX = 0;
+	private final int TAIKO_INDEX = 1;
+	private final int MANIA_INDEX = 2;
+
+	/**
+	 * 1st Index = Type (Osu, Taiko, Mania, etc.)
+	 * 2nd Index = Identifier (What it does)
+	 */
+	private String[][] ADDON_TYPES = {
+			{ "Osu_Note" },
+			{ "Taiko_Note" },
+			{ "Mania_Note" }
+	};
 	private String[] TITLES = { "Osu", "Taiko", "Mania" };
 
 	/**
@@ -180,7 +192,7 @@ public class OsuSkinCustomizer extends JFrame
 			{
 				currentOsuNoteAddon = osuNoteComboBox.getSelectedItem().toString();
 				osuPreviewLabel.setIcon(new ImageIcon(osuNoteAddons.get(currentOsuNoteAddon).getPath() + "/preview.png"));
-				osuAddonsToApply.put(ADDON_TYPES[0], osuNoteAddons.get(currentOsuNoteAddon));
+				osuAddonsToApply.put(ADDON_TYPES[OSU_INDEX][0], osuNoteAddons.get(currentOsuNoteAddon));
 			}
 		});
 
@@ -191,7 +203,7 @@ public class OsuSkinCustomizer extends JFrame
 			{
 				currentTaikoNoteAddon = taikoNoteComboBox.getSelectedItem().toString();
 				taikoPreviewLabel.setIcon(new ImageIcon(taikoNoteAddons.get(currentTaikoNoteAddon).getPath() + "/preview.png"));
-				taikoAddonsToApply.put(ADDON_TYPES[1], taikoNoteAddons.get(currentTaikoNoteAddon));
+				taikoAddonsToApply.put(ADDON_TYPES[TAIKO_INDEX][0], taikoNoteAddons.get(currentTaikoNoteAddon));
 			}
 		});
 
@@ -202,7 +214,7 @@ public class OsuSkinCustomizer extends JFrame
 			{
 				currentManiaNoteAddon = maniaNoteComboBox.getSelectedItem().toString();
 				maniaPreviewLabel.setIcon(new ImageIcon(maniaNoteAddons.get(currentManiaNoteAddon).getPath() + "/preview.png"));
-				maniaAddonsToApply.put(ADDON_TYPES[2], maniaNoteAddons.get(currentManiaNoteAddon));
+				maniaAddonsToApply.put(ADDON_TYPES[MANIA_INDEX][0], maniaNoteAddons.get(currentManiaNoteAddon));
 			}
 		});
 
@@ -285,11 +297,11 @@ public class OsuSkinCustomizer extends JFrame
 			Addon[] addonArray = gson.fromJson(new FileReader(json), Addon[].class);
 			for (Addon addon : addonArray)
 			{
-				if (addon.getType().equals(ADDON_TYPES[0]))
+				if (addon.getType().equals(ADDON_TYPES[OSU_INDEX][0]))
 					osuNoteAddons.put(addon.getName(), addon);
-				if (addon.getType().equals(ADDON_TYPES[1]))
+				if (addon.getType().equals(ADDON_TYPES[TAIKO_INDEX][0]))
 					taikoNoteAddons.put(addon.getName(), addon);
-				if (addon.getType().equals(ADDON_TYPES[2]))
+				if (addon.getType().equals(ADDON_TYPES[MANIA_INDEX][0]))
 					maniaNoteAddons.put(addon.getName(), addon);
 			}
 		}

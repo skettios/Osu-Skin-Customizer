@@ -110,6 +110,7 @@
         <copy file="${app.artifact}/${app.name}-${app.version}.${build_number}.jar" todir="${release.temp.artifact}"/>
         <copy file="LICENSE" todir="${release.temp.artifact}"/>
         <copy file="Customizer.json" todir="${release.temp.artifact}"/>
+        <copy file="ReadMe.txt" todir="${release.temp.artifact}"/>
     </target>
 
     <target name="build" depends="install, prepare_release">
