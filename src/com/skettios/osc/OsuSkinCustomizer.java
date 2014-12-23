@@ -18,6 +18,7 @@ import java.util.HashMap;
 /**
  * Written By: Skettios
  * TODO: When clicking apply list all of the addons that will be applied. With confirmation
+ * TODO: CLEAN THIS MESS UP
  */
 public class OsuSkinCustomizer extends JFrame
 {
@@ -104,7 +105,6 @@ public class OsuSkinCustomizer extends JFrame
 
 		this.setTitle("Osu Skin Customizer");
 		this.setResizable(false);
-		this.setLocationRelativeTo(null);
 		this.setSize(800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);

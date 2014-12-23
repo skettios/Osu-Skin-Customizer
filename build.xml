@@ -21,7 +21,7 @@
         <delete dir="out"/>
     </target>
 
-    <target name="install" depends="clean, download-dependencies" unless="lwjgl.exists, gson.exists">
+    <target name="install" depends="clean, download-dependencies" unless="commons.exists, gson.exists">
         <echo>Installing libraries for compilation and development...</echo>
         <copy todir="lib">
             <fileset dir="${commons.temp.path}"/>
