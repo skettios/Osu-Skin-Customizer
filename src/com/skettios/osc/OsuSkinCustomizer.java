@@ -232,6 +232,9 @@ public class OsuSkinCustomizer extends JFrame
 
 	private void addActionListeners()
 	{
+		/**
+		 * Osu Start
+		 */
 		osuCompleteComboBox.addActionListener(new ActionListener()
 		{
 			@Override
@@ -253,6 +256,23 @@ public class OsuSkinCustomizer extends JFrame
 				osuAddonsToApply.put(ADDON_TYPES[OSU_INDEX][1], osuNoteAddons.get(currentOsuNoteAddon));
 			}
 		});
+		/**
+		 * Osu End
+		 */
+
+		/**
+		 * Taiko Start
+		 */
+		taikoCompleteComboBox.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				currentTaikoCompleteAddon = taikoCompleteComboBox.getSelectedItem().toString();
+				taikoPreviewLabel.setIcon(new ImageIcon(taikoCompleteAddons.get(currentTaikoCompleteAddon).getPath() + "/preview.png"));
+				taikoAddonsToApply.put(ADDON_TYPES[TAIKO_INDEX][0], taikoCompleteAddons.get(currentTaikoCompleteAddon));
+			}
+		});
 
 		taikoNoteComboBox.addActionListener(new ActionListener()
 		{
@@ -262,6 +282,23 @@ public class OsuSkinCustomizer extends JFrame
 				currentTaikoNoteAddon = taikoNoteComboBox.getSelectedItem().toString();
 				taikoPreviewLabel.setIcon(new ImageIcon(taikoNoteAddons.get(currentTaikoNoteAddon).getPath() + "/preview.png"));
 				taikoAddonsToApply.put(ADDON_TYPES[TAIKO_INDEX][1], taikoNoteAddons.get(currentTaikoNoteAddon));
+			}
+		});
+		/**
+		 * Taiko End
+		 */
+
+		/**
+		 * Mania Start
+		 */
+		maniaCompleteComboBox.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				currentManiaCompleteAddon = maniaCompleteComboBox.getSelectedItem().toString();
+				maniaPreviewLabel.setIcon(new ImageIcon(maniaCompleteAddons.get(currentManiaCompleteAddon).getPath() + "/preview.png"));
+				maniaAddonsToApply.put(ADDON_TYPES[MANIA_INDEX][0], maniaCompleteAddons.get(currentManiaCompleteAddon));
 			}
 		});
 
@@ -275,6 +312,9 @@ public class OsuSkinCustomizer extends JFrame
 				maniaAddonsToApply.put(ADDON_TYPES[MANIA_INDEX][1], maniaNoteAddons.get(currentManiaNoteAddon));
 			}
 		});
+		/**
+		 * Mania End
+		 */
 
 		osuApplyButton.addActionListener(new ActionListener()
 		{
@@ -319,7 +359,7 @@ public class OsuSkinCustomizer extends JFrame
 		});
 	}
 
-	public void doCopy(ArrayList<Addon> addonList)
+	private void doCopy(ArrayList<Addon> addonList)
 	{
 		try
 		{
