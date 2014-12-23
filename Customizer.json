@@ -1,0 +1,17 @@
+[
+  {
+	"addonType": "Osu_Note",
+	"addonName": "Default",
+	"addonPath": "addons/Default_Osu/Note"
+  },
+  {
+	"addonType": "Taiko_Note",
+	"addonName": "Default",
+	"addonPath": "addons/Default_Taiko/Note"
+  },
+  {
+	"addonType": "Mania_Note",
+	"addonName": "Default",
+	"addonPath": "addons/Default_Mania/Note"
+  }
+]
