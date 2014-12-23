@@ -1,17 +1,32 @@
 [
   {
+	"type": "Osu_Complete",
+	"name": "Default",
+	"path": "addons/Osu_Default/Complete"
+  },
+  {
+	"type": "Taiko_Complete",
+	"name": "Default",
+	"path": "addons/Taiko_Default/Complete"
+  },
+  {
+	"type": "Mania_Complete",
+	"name": "Default",
+	"path": "addons/Mania_Default/Complete"
+  },
+  {
 	"type": "Osu_Note",
 	"name": "Default",
-	"path": "addons/Default_Osu/Note"
+	"path": "addons/Osu_Default/Note"
   },
   {
 	"type": "Taiko_Note",
 	"name": "Default",
-	"path": "addons/Default_Taiko/Note"
+	"path": "addons/Taiko_Default/Note"
   },
   {
 	"type": "Mania_Note",
 	"name": "Default",
-	"path": "addons/Default_Mania/Note"
+	"path": "addons/Mania_Default/Note"
   }
 ]
