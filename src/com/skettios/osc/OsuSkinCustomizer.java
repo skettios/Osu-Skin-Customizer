@@ -106,7 +106,7 @@ public class OsuSkinCustomizer extends JFrame
 		for (String addon : osuNoteAddons.keySet())
 			osuNoteComboBox.addItem(addon);
 
-		osuPreviewLabel.setIcon(new ImageIcon(osuNoteAddons.get(currentOsuNoteAddon).getAddonPath() + "/preview.png"));
+		osuPreviewLabel.setIcon(new ImageIcon(osuNoteAddons.get(currentOsuNoteAddon).getPath() + "/preview.png"));
 		osuPreviewLabel.setPreferredSize(new Dimension(800, 408));
 
 		osuApplyButton.setPreferredSize(new Dimension(788, 20));
@@ -130,7 +130,7 @@ public class OsuSkinCustomizer extends JFrame
 		for (String addon : taikoNoteAddons.keySet())
 			taikoNoteComboBox.addItem(addon);
 
-		taikoPreviewLabel.setIcon(new ImageIcon(taikoNoteAddons.get(currentTaikoNoteAddon).getAddonPath() + "/preview.png"));
+		taikoPreviewLabel.setIcon(new ImageIcon(taikoNoteAddons.get(currentTaikoNoteAddon).getPath() + "/preview.png"));
 		taikoPreviewLabel.setPreferredSize(new Dimension(800, 408));
 
 		taikoApplyButton.setPreferredSize(new Dimension(788, 20));
@@ -154,7 +154,7 @@ public class OsuSkinCustomizer extends JFrame
 		for (String addon : maniaNoteAddons.keySet())
 			maniaNoteComboBox.addItem(addon);
 
-		maniaPreviewLabel.setIcon(new ImageIcon(maniaNoteAddons.get(currentManiaNoteAddon).getAddonPath() + "/preview.png"));
+		maniaPreviewLabel.setIcon(new ImageIcon(maniaNoteAddons.get(currentManiaNoteAddon).getPath() + "/preview.png"));
 		maniaPreviewLabel.setPreferredSize(new Dimension(800, 408));
 
 		maniaApplyButton.setPreferredSize(new Dimension(788, 20));
@@ -179,7 +179,7 @@ public class OsuSkinCustomizer extends JFrame
 			public void actionPerformed(ActionEvent e)
 			{
 				currentOsuNoteAddon = osuNoteComboBox.getSelectedItem().toString();
-				osuPreviewLabel.setIcon(new ImageIcon(osuNoteAddons.get(currentOsuNoteAddon).getAddonPath() + "/preview.png"));
+				osuPreviewLabel.setIcon(new ImageIcon(osuNoteAddons.get(currentOsuNoteAddon).getPath() + "/preview.png"));
 				osuAddonsToApply.put(ADDON_TYPES[0], osuNoteAddons.get(currentOsuNoteAddon));
 			}
 		});
@@ -190,7 +190,7 @@ public class OsuSkinCustomizer extends JFrame
 			public void actionPerformed(ActionEvent e)
 			{
 				currentTaikoNoteAddon = taikoNoteComboBox.getSelectedItem().toString();
-				taikoPreviewLabel.setIcon(new ImageIcon(taikoNoteAddons.get(currentTaikoNoteAddon).getAddonPath() + "/preview.png"));
+				taikoPreviewLabel.setIcon(new ImageIcon(taikoNoteAddons.get(currentTaikoNoteAddon).getPath() + "/preview.png"));
 				taikoAddonsToApply.put(ADDON_TYPES[1], taikoNoteAddons.get(currentTaikoNoteAddon));
 			}
 		});
@@ -201,7 +201,7 @@ public class OsuSkinCustomizer extends JFrame
 			public void actionPerformed(ActionEvent e)
 			{
 				currentManiaNoteAddon = maniaNoteComboBox.getSelectedItem().toString();
-				maniaPreviewLabel.setIcon(new ImageIcon(maniaNoteAddons.get(currentManiaNoteAddon).getAddonPath() + "/preview.png"));
+				maniaPreviewLabel.setIcon(new ImageIcon(maniaNoteAddons.get(currentManiaNoteAddon).getPath() + "/preview.png"));
 				maniaAddonsToApply.put(ADDON_TYPES[2], maniaNoteAddons.get(currentManiaNoteAddon));
 			}
 		});
@@ -256,7 +256,7 @@ public class OsuSkinCustomizer extends JFrame
 			File destDir = new File(".");
 			for (Addon addon : addonList)
 			{
-				File addonDirectory = new File(addon.getAddonPath());
+				File addonDirectory = new File(addon.getPath());
 				File[] addonContents = addonDirectory.listFiles();
 				for (int i = 0; i < addonContents.length; i++)
 				{
@@ -285,12 +285,12 @@ public class OsuSkinCustomizer extends JFrame
 			Addon[] addonArray = gson.fromJson(new FileReader(json), Addon[].class);
 			for (Addon addon : addonArray)
 			{
-				if (addon.getAddonType().equals(ADDON_TYPES[0]))
-					osuNoteAddons.put(addon.getAddonName(), addon);
-				if (addon.getAddonType().equals(ADDON_TYPES[1]))
-					taikoNoteAddons.put(addon.getAddonName(), addon);
-				if (addon.getAddonType().equals(ADDON_TYPES[2]))
-					maniaNoteAddons.put(addon.getAddonName(), addon);
+				if (addon.getType().equals(ADDON_TYPES[0]))
+					osuNoteAddons.put(addon.getName(), addon);
+				if (addon.getType().equals(ADDON_TYPES[1]))
+					taikoNoteAddons.put(addon.getName(), addon);
+				if (addon.getType().equals(ADDON_TYPES[2]))
+					maniaNoteAddons.put(addon.getName(), addon);
 			}
 		}
 		catch (IOException e)

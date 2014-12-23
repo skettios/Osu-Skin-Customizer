@@ -2,20 +2,20 @@ package com.skettios.osc;
 
 public class Addon
 {
-	private String addonType, addonName, addonPath;
+	private String type, name, path;
 
-	public String getAddonType()
+	public String getType()
 	{
-		return addonType;
+		return type;
 	}
 
-	public String getAddonName()
+	public String getName()
 	{
-		return addonName;
+		return name;
 	}
 
-	public String getAddonPath()
+	public String getPath()
 	{
-		return addonPath;
+		return path;
 	}
 }
