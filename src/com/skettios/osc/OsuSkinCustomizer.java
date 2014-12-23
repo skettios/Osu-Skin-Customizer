@@ -109,9 +109,6 @@ public class OsuSkinCustomizer extends JFrame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		this.add(mainPanel);
-
-		addActionListeners();
-		addChangeListeners();
 	}
 
 	public void start()
@@ -123,6 +120,9 @@ public class OsuSkinCustomizer extends JFrame
 		initializeOsuPanel();
 		initializeTaikoPanel();
 		initializeManiaPanel();
+
+		addActionListeners();
+		addChangeListeners();
 	}
 
 	private void initializeOsuPanel()
@@ -241,7 +241,7 @@ public class OsuSkinCustomizer extends JFrame
 			public void actionPerformed(ActionEvent e)
 			{
 				currentOsuCompleteAddon = osuCompleteComboBox.getSelectedItem().toString();
-				osuPreviewLabel.setIcon(new ImageIcon(osuCompleteAddons.get(currentOsuCompleteAddon).getName() + "/preview.png"));
+				osuPreviewLabel.setIcon(new ImageIcon(osuCompleteAddons.get(currentOsuCompleteAddon).getPath() + "/preview.png"));
 				osuAddonsToApply.put(ADDON_TYPES[OSU_INDEX][0], osuCompleteAddons.get(currentOsuCompleteAddon));
 			}
 		});
