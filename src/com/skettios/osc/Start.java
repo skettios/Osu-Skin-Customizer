@@ -10,7 +10,7 @@ public class Start
 		File json = new File("Customizer.json");
 		if (!json.exists())
 		{
-			JOptionPane.showMessageDialog(null, "Couln't find Customizer.json! \nThis is needed for the program to run!", "Error!", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Couln't find Customizer.json! \nThis is needed for the program to run!", "Error!", JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		}
 

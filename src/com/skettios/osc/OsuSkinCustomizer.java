@@ -117,6 +117,7 @@ public class OsuSkinCustomizer extends JFrame
 		tabs.setAlignmentX(LEFT_ALIGNMENT);
 
 		mainPanel.add(tabs);
+
 		initializeOsuPanel();
 		initializeTaikoPanel();
 		initializeManiaPanel();
@@ -125,6 +126,7 @@ public class OsuSkinCustomizer extends JFrame
 		addChangeListeners();
 	}
 
+	// TODO: Better Initializing and more modular yeah...
 	private void initializeOsuPanel()
 	{
 		osuAddonPanel.setLayout(new BoxLayout(osuAddonPanel, BoxLayout.PAGE_AXIS));
@@ -160,6 +162,7 @@ public class OsuSkinCustomizer extends JFrame
 		tabs.addTab(TITLES[0], osuPanel);
 	}
 
+	// TODO: Better Initializing and more modular yeah...
 	private void initializeTaikoPanel()
 	{
 		taikoAddonPanel.setLayout(new BoxLayout(taikoAddonPanel, BoxLayout.PAGE_AXIS));
@@ -195,6 +198,7 @@ public class OsuSkinCustomizer extends JFrame
 		tabs.addTab(TITLES[1], taikoPanel);
 	}
 
+	// TODO: Better Initializing and more modular yeah...
 	private void initializeManiaPanel()
 	{
 		maniaAddonPanel.setLayout(new BoxLayout(maniaAddonPanel, BoxLayout.PAGE_AXIS));
@@ -316,6 +320,9 @@ public class OsuSkinCustomizer extends JFrame
 		 * Mania End
 		 */
 
+		/**
+		 * Button Start
+		 */
 		osuApplyButton.addActionListener(new ActionListener()
 		{
 			@Override
@@ -345,6 +352,9 @@ public class OsuSkinCustomizer extends JFrame
 				doCopy(addonsToApply);
 			}
 		});
+		/**
+		 * Button End
+		 */
 	}
 
 	private void addChangeListeners()
@@ -390,6 +400,7 @@ public class OsuSkinCustomizer extends JFrame
 		}
 	}
 
+	// TODO: Better parsing >.<
 	private void parseJSON(File json)
 	{
 		try
