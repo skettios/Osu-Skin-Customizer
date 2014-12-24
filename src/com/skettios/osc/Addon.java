@@ -2,11 +2,11 @@ package com.skettios.osc;
 
 public class Addon
 {
-	private String type, name, path;
+	private String category, name, path;
 
-	public String getType()
+	public String getCategory()
 	{
-		return type;
+		return category;
 	}
 
 	public String getName()

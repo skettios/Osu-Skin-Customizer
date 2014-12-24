@@ -109,7 +109,10 @@
         <echo>Copying files to temporary location...</echo>
         <copy file="${app.artifact}/${app.name}-${app.version}.${build_number}.jar" todir="${release.temp.artifact}"/>
         <copy file="LICENSE" todir="${release.temp.artifact}"/>
-        <copy file="Customizer.json" todir="${release.temp.artifact}"/>
+        <copy file="Tabs.json" todir="${release.temp.artifact}"/>
+        <copy file="Categories.json" todir="${release.temp.artifact}"/>
+        <copy file="Current.json" todir="${release.temp.artifact}"/>
+        <copy file="Addons.json" todir="${release.temp.artifact}"/>
         <copy file="ReadMe.txt" todir="${release.temp.artifact}"/>
     </target>
 
