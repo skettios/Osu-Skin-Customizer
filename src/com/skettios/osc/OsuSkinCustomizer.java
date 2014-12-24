@@ -23,6 +23,7 @@ public class OsuSkinCustomizer extends JFrame
 	private HashMap<String, ArrayList<Category>> currentCategories = new HashMap<String, ArrayList<Category>>();
 	private HashMap<String, ArrayList<Addon>> currentAddons = new HashMap<String, ArrayList<Addon>>();
 
+	private HashMap<String, HashMap<String, Addon>> oldSettings = new HashMap<String, HashMap<String, Addon>>();
 	private HashMap<String, HashMap<String, Addon>> currentSelectedInTab = new HashMap<String, HashMap<String, Addon>>();
 	private HashMap<String, HashMap<String, Addon>> filesToReplace = new HashMap<String, HashMap<String, Addon>>();
 
@@ -53,6 +54,8 @@ public class OsuSkinCustomizer extends JFrame
 		this.add(mainPanel);
 
 		this.setVisible(true);
+
+		parseCurrentSettings(new File("Current.json"));
 	}
 
 	private void addNewTab(final String tabName, int index)
@@ -85,6 +88,7 @@ public class OsuSkinCustomizer extends JFrame
 					doDelete(tabName);
 					doCopy(tabName);
 					saveCurrentSettings(new FileOutputStream("Current.json"));
+					reloadSettings();
 				}
 				catch (Exception i)
 				{
@@ -195,7 +199,6 @@ public class OsuSkinCustomizer extends JFrame
 
 	private void doDelete(String tabName)
 	{
-		parseCurrentSettings(new File("Current.json"));
 		ArrayList<String> filePaths = new ArrayList<String>();
 		HashMap<String, Addon> replace = filesToReplace.get(tabName);
 		if (replace != null)
@@ -304,6 +307,23 @@ public class OsuSkinCustomizer extends JFrame
 		}
 	}
 
+	private void reloadSettings()
+	{
+		for (String tabName : currentSelectedInTab.keySet())
+		{
+			if (oldSettings.get(tabName) != null)
+			{
+				for (String categoryName : oldSettings.get(tabName).keySet())
+				{
+					if (!currentSelectedInTab.get(tabName).containsKey(categoryName))
+					{
+						currentSelectedInTab.get(tabName).put(categoryName, oldSettings.get(tabName).get(categoryName));
+					}
+				}
+			}
+		}
+	}
+
 	private void parseCurrentSettings(File json)
 	{
 		try
@@ -320,9 +340,13 @@ public class OsuSkinCustomizer extends JFrame
 						for (Addon addon : current.getAddons())
 							addons.put(addon.getCategory(), addon);
 					}
+
+					oldSettings.put(current.getTab(), addons);
 					filesToReplace.put(current.getTab(), addons);
 				}
 			}
+
+			reloadSettings();
 		}
 		catch (IOException e)
 		{
