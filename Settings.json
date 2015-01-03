@@ -1,0 +1,70 @@
+[
+	{
+		"tab": "Test Tab",
+		"categories": [
+			{
+				"category": "Test Category",
+				"addons": [
+					{
+						"addon": "Test Addon",
+						"path": "Test Path"
+					},
+					{
+						"addon": "Test Addon 2",
+						"path": "Test Path 2"
+					}
+				]
+			},
+			{
+				"category": "Test Category 2",
+				"addons": [
+					{
+						"addon": "Test Addon",
+						"path": "Test Path"
+					}
+				]
+			},
+			{
+				"category": "Test Category 3",
+				"addons": [
+					{
+						"addon": "Test Addon",
+						"path": "Test Path"
+					}
+				]
+			},
+			{
+				"category": "Test Category 4",
+				"addons": [
+					{
+						"addon": "Test Addon",
+						"path": "Test Path"
+					}
+				]
+			},
+			{
+				"category": "Test Category 5",
+				"addons": [
+					{
+						"addon": "Test Addon",
+						"path": "Test Path"
+					}
+				]
+			}
+		]
+	},
+	{
+		"tab": "Test Tab 2",
+		"categories": [
+			{
+				"category": "Test Category",
+				"addons": [
+					{
+						"addon": "Test Addon",
+						"path": "Test Path"
+					}
+				]
+			}
+		]
+	}
+]

@@ -112,7 +112,7 @@
         <copy file="Tabs.json" todir="${release.temp.artifact}"/>
         <copy file="Categories.json" todir="${release.temp.artifact}"/>
         <copy file="Current.json" todir="${release.temp.artifact}"/>
-        <copy file="Addons.json" todir="${release.temp.artifact}"/>
+        <copy file="Settings.json" todir="${release.temp.artifact}"/>
         <copy file="ReadMe.txt" todir="${release.temp.artifact}"/>
     </target>
 

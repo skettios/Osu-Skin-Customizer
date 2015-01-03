@@ -1,15 +1,12 @@
 package com.skettios.osc;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonWriter;
-import org.apache.commons.io.FileUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class OsuSkinCustomizer extends JFrame
@@ -17,340 +14,147 @@ public class OsuSkinCustomizer extends JFrame
 	private JPanel mainPanel = new JPanel(new GridLayout());
 	private JTabbedPane tabs = new JTabbedPane();
 
-	private HashMap<String, ArrayList<JPanel>> tabPanes = new HashMap<String, ArrayList<JPanel>>();
-
-	private HashMap<String, Tab> currentTabs = new HashMap<String, Tab>();
-	private HashMap<String, ArrayList<Category>> currentCategories = new HashMap<String, ArrayList<Category>>();
-	private HashMap<String, ArrayList<Addon>> currentAddons = new HashMap<String, ArrayList<Addon>>();
-
-	private HashMap<String, HashMap<String, Addon>> oldSettings = new HashMap<String, HashMap<String, Addon>>();
-	private HashMap<String, HashMap<String, Addon>> currentSelectedInTab = new HashMap<String, HashMap<String, Addon>>();
-	private HashMap<String, HashMap<String, Addon>> filesToReplace = new HashMap<String, HashMap<String, Addon>>();
+	private HashMap<Tab, HashMap<Category, Addon[]>> settings = new HashMap<Tab, HashMap<Category, Addon[]>>();
 
 	public OsuSkinCustomizer()
 	{
 		this.setTitle("Osu Skin Customizer");
-		this.setResizable(false);
 		this.setSize(800, 600);
+		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		initialize();
 	}
 
-	public void start(HashMap<String, ArrayList<Category>> categories, ArrayList<Tab> appTabs, HashMap<String, ArrayList<Addon>> addons)
+	private void initialize()
 	{
+		parseSettings(new File("Settings.json"));
+
 		tabs.setAlignmentX(LEFT_ALIGNMENT);
 		tabs.setAlignmentY(TOP_ALIGNMENT);
 
-		currentAddons = addons;
-		currentCategories = categories;
-
-		for (Tab tab : appTabs)
-		{
-			addNewTab(tab.getName(), tab.getIndex());
-			currentTabs.put(tab.getName(), tab);
-		}
+		for (Tab tab : settings.keySet())
+			addTab(tab);
 
 		mainPanel.add(tabs);
-
-		this.add(mainPanel);
-
-		this.setVisible(true);
-
-		parseCurrentSettings(new File("Current.json"));
+		add(mainPanel);
 	}
 
-	private void addNewTab(final String tabName, int index)
+	private void addTab(Tab tab)
 	{
-		JPanel newPanel = new JPanel();
-		JPanel newAddonPanel = new JPanel();
-		JScrollPane newAddons = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		final JLabel previewLabel = new JLabel();
-		JButton buttonApply = new JButton("Apply");
+		// Add the tab
+		JPanel tabPanel = new JPanel();
+		JPanel addonPanel = new JPanel();
+		JScrollPane addonScrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		JLabel previewLabel = new JLabel();
+		JButton applyButton = new JButton("Apply");
 
-		newPanel.setName(tabName);
-		newAddonPanel.setLayout(new BoxLayout(newAddonPanel, BoxLayout.PAGE_AXIS));
-		newAddons.setPreferredSize(new Dimension(788, 100));
-		previewLabel.setPreferredSize(new Dimension(800, 408));
-		buttonApply.setPreferredSize(new Dimension(788, 20));
+		tabPanel.setName(tab.getTab());
+		addonPanel.setLayout(new BoxLayout(addonPanel, BoxLayout.PAGE_AXIS));
+		addonScrollPane.setPreferredSize(new Dimension(788, 100));
+		previewLabel.setPreferredSize(new Dimension(788, 408));
+		applyButton.setPreferredSize(new Dimension(788, 20));
 
-		newAddons.getViewport().add(newAddonPanel);
-		newPanel.add(newAddons);
-		newPanel.add(previewLabel);
-		newPanel.add(buttonApply);
-
-		buttonApply.addActionListener(new ActionListener()
+		// Add all the categories in the tab with addons
+		for (Category category : tab.getCategories())
 		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				try
-				{
-					parseCurrentSettings(new File("Current.json"));
-					doDelete(tabName);
-					doCopy(tabName);
-					saveCurrentSettings(new FileOutputStream("Current.json"));
-					reloadSettings();
-				}
-				catch (Exception i)
-				{
-					i.printStackTrace();
-				}
-				finally
-				{
-					JOptionPane.showMessageDialog(null, "Addons have been applied!", "Apply", JOptionPane.PLAIN_MESSAGE);
-				}
-			}
-		});
+			JLabel categoryLabel = new JLabel(category.getCategory());
+			JComboBox categoryComboBox = new JComboBox();
 
-		if (currentCategories.values() != null || !currentCategories.values().isEmpty())
-		{
-			ArrayList<Category> categories = currentCategories.get(tabName);
-			if (categories != null)
-			{
-				for (final Category category : categories)
-				{
-					JLabel label = new JLabel(category.getName());
-					final JComboBox comboBox = new JComboBox();
+			categoryLabel.setAlignmentX(CENTER_ALIGNMENT);
 
-					label.setAlignmentX(CENTER_ALIGNMENT);
+			for (Addon addon : category.getAddons())
+				categoryComboBox.addItem(addon.getAddon());
 
-					if (currentAddons.get(category.getName()) != null)
-					{
-						ArrayList<Addon> addons = currentAddons.get(category.getName());
-						if (addons != null || !addons.isEmpty())
-						{
-							for (Addon addon : addons)
-								comboBox.addItem(addon.getName());
-
-							newAddonPanel.add(label);
-							newAddonPanel.add(comboBox);
-						}
-					}
-
-					comboBox.addActionListener(new ActionListener()
-					{
-						@Override
-						public void actionPerformed(ActionEvent e)
-						{
-							String name = comboBox.getSelectedItem().toString();
-							int index = comboBox.getSelectedIndex();
-							if (currentSelectedInTab.containsKey(tabName))
-							{
-								if (currentSelectedInTab.get(tabName) != null)
-								{
-									currentSelectedInTab.get(tabName).put(category.getName(), currentAddons.get(category.getName()).get(index));
-								}
-							}
-							else
-							{
-								HashMap<String, Addon> addonMap = new HashMap<String, Addon>();
-								currentSelectedInTab.put(tabName, addonMap);
-							}
-
-							previewLabel.setIcon(new ImageIcon(currentAddons.get(category.getName()).get(index).getPath() + "/preview.png"));
-						}
-					});
-				}
-			}
+			addonPanel.add(categoryLabel);
+			addonPanel.add(categoryComboBox);
 		}
 
-		tabs.add(newPanel, index);
-		ArrayList<JPanel> panelArrayList = new ArrayList<JPanel>();
-		panelArrayList.add(newPanel);
-		panelArrayList.add(newAddonPanel);
-		tabPanes.put(tabName, panelArrayList);
+		addonScrollPane.getViewport().add(addonPanel);
+		tabPanel.add(addonScrollPane);
+		tabPanel.add(previewLabel);
+		tabPanel.add(applyButton);
+
+		tabs.add(tabPanel);
 	}
 
-	private ArrayList<JPanel> getTab(String tabName)
-	{
-		return tabPanes.get(tabName);
-	}
-
-	private void doCopy(String tabName)
-	{
-		try
-		{
-			File destDir = new File(".");
-			ArrayList<Addon> list = new ArrayList<Addon>(currentSelectedInTab.get(tabName).values());
-			for (Addon addon : list)
-			{
-				File addonDirectory = new File(addon.getPath());
-				File[] addonContents = addonDirectory.listFiles();
-				for (int i = 0; i < addonContents.length; i++)
-				{
-					if (addonContents[i].isFile())
-					{
-						if (addonContents[i].getName().equalsIgnoreCase("preview.png"))
-							continue;
-
-						FileUtils.copyFileToDirectory(addonContents[i], destDir);
-					}
-					else if (addonContents[i].isDirectory())
-					{
-						FileUtils.copyDirectoryToDirectory(addonContents[i], destDir);
-					}
-				}
-			}
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	private void doDelete(String tabName)
-	{
-		ArrayList<String> filePaths = new ArrayList<String>();
-		HashMap<String, Addon> replace = filesToReplace.get(tabName);
-		if (replace != null)
-		{
-			for (Addon addon : replace.values())
-			{
-				File addonDirectory = new File(addon.getPath());
-				if (addonDirectory != null)
-				{
-					File[] addonContents = addonDirectory.listFiles();
-					if (addonContents != null)
-					{
-						for (int i = 0; i < addonContents.length; i++)
-						{
-							if (addonContents[i].isFile())
-							{
-								filePaths.add(addonContents[i].getName());
-							} else if (addonContents[i].isDirectory())
-							{
-								scanFolder(addonContents[i], filePaths);
-							}
-						}
-					}
-				}
-			}
-		}
-
-		for (String path : filePaths)
-		{
-			try
-			{
-				File fileToDelete = new File(path);
-				if (fileToDelete.exists())
-					FileUtils.forceDelete(fileToDelete);
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-	}
-
-	private void scanFolder(File directory, ArrayList<String> filePaths)
-	{
-		File[] contents = directory.listFiles();
-		for (int i = 0; i < contents.length; i++)
-		{
-			if (contents[i].isFile())
-			{
-				filePaths.add(directory.getName() + "/" + contents[i].getName());
-			}
-			else if (contents[i].isDirectory())
-			{
-				scanFolder(contents[i], filePaths);
-			}
-		}
-	}
-
-	private void saveCurrentSettings(OutputStream out)
-	{
-		try
-		{
-			JsonWriter writer = new JsonWriter(new OutputStreamWriter(out, "UTF-8"));
-			writer.setIndent("	");
-			writer.beginArray();
-			for (String tab : tabPanes.keySet())
-			{
-				writer.beginObject();
-				writer.name("tab").value(tab);
-				writeTabSettings(writer, tab);
-				writer.endObject();
-			}
-			writer.endArray();
-
-			writer.flush();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	private void writeTabSettings(JsonWriter writer, String tabName)
-	{
-		try
-		{
-			if (currentSelectedInTab.get(tabName) != null)
-			{
-				HashMap<String, Addon> addons = currentSelectedInTab.get(tabName);
-				writer.name("addons");
-				writer.beginArray();
-				for (Addon addon : addons.values())
-				{
-					writer.beginObject();
-					writer.name("category").value(addon.getCategory());
-					writer.name("name").value(addon.getName());
-					writer.name("path").value(addon.getPath());
-					writer.endObject();
-				}
-				writer.endArray();
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	private void reloadSettings()
-	{
-		for (String tabName : currentSelectedInTab.keySet())
-		{
-			if (oldSettings.get(tabName) != null)
-			{
-				for (String categoryName : oldSettings.get(tabName).keySet())
-				{
-					if (!currentSelectedInTab.get(tabName).containsKey(categoryName))
-					{
-						currentSelectedInTab.get(tabName).put(categoryName, oldSettings.get(tabName).get(categoryName));
-					}
-				}
-			}
-		}
-	}
-
-	private void parseCurrentSettings(File json)
+	private void parseSettings(File json)
 	{
 		try
 		{
 			Gson gson = new Gson();
-			Current[] currentAddons = gson.fromJson(new FileReader(json), Current[].class);
-			if (currentAddons != null)
+			Tab[] tabs = gson.fromJson(new FileReader(json), Tab[].class);
+			for (Tab tab : tabs)
 			{
-				for (Current current : currentAddons)
+				for (Category category : tab.getCategories())
 				{
-					HashMap<String, Addon> addons = new HashMap<String, Addon>();
-					if (current.getAddons() != null)
-					{
-						for (Addon addon : current.getAddons())
-							addons.put(addon.getCategory(), addon);
-					}
-
-					oldSettings.put(current.getTab(), addons);
-					filesToReplace.put(current.getTab(), addons);
+					HashMap<Category, Addon[]> addons = new HashMap<Category, Addon[]>();
+					addons.put(category, category.getAddons());
+					settings.put(tab, addons);
 				}
 			}
-
-			reloadSettings();
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
+		}
+	}
+
+	public void start()
+	{
+		this.setVisible(true);
+	}
+
+	public static void main(String[] args)
+	{
+		OsuSkinCustomizer osc = new OsuSkinCustomizer();
+		osc.start();
+	}
+
+	class Tab
+	{
+		private String tab;
+		private Category[] categories;
+
+		public String getTab()
+		{
+			return tab;
+		}
+
+		public Category[] getCategories()
+		{
+			return categories;
+		}
+	}
+
+	class Category
+	{
+		private String category;
+		private Addon[] addons;
+
+		public String getCategory()
+		{
+			return category;
+		}
+
+		public Addon[] getAddons()
+		{
+			return addons;
+		}
+	}
+
+	class Addon
+	{
+		private String addon, path;
+
+		public String getAddon()
+		{
+			return addon;
+		}
+
+		public String getPath()
+		{
+			return path;
 		}
 	}
 }
