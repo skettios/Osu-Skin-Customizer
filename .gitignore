@@ -1,5 +1,6 @@
-dist/
-lib/
-out/
+.gradle/
+build/
 
+*.iml
+*.ipr
 *.iws
