@@ -5,9 +5,10 @@ apply plugin: 'eclipse'
 sourceCompatibility = 1.6
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-version = '0.1'
+ext.buildNumber = System.getenv("BUILD_NUMBER") ?: "dev"
 ext.mainClassName = "com.skettios.osc.Start"
 ext.assetDir = "assets"
+version = "3.0.${buildNumber}"
 
 repositories {
     mavenCentral()
@@ -26,7 +27,7 @@ task run(dependsOn: classes, type: JavaExec) {
     ignoreExitValue = true
 }
 
-task dist(type: Jar) {
+task compile(type: Jar) {
 	delete("build/libs")
 	from files(sourceSets.main.output.classesDir)
 	from files(sourceSets.main.output.resourcesDir)
@@ -39,13 +40,13 @@ task dist(type: Jar) {
 	}
 }
 
-task zip(type: Zip) {
+task dist(type: Zip) {
 	delete("build/distributions")
 	from 'build/libs'
 	from 'assets'
 }
 
-build.dependsOn dist, zip
+build.dependsOn compile, dist
 
 eclipse {
     project {
