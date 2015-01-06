@@ -7,6 +7,7 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 
 version = '0.1'
 ext.mainClassName = "com.skettios.osc.Start"
+ext.assetDir = "assets"
 
 repositories {
     mavenCentral()
@@ -18,26 +19,33 @@ dependencies {
 }
 
 task run(dependsOn: classes, type: JavaExec) {
-    main = mainClassName
+    main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
+	workingDir = project.assetDir
     standardInput = System.in
     ignoreExitValue = true
 }
 
 task dist(type: Jar) {
-    delete("build/libs")
-    from files(sourceSets.main.output.classesDir)
-    from files(sourceSets.main.output.resourcesDir)
-    from { configurations.compile.collect { zipTree(it) } }
+	delete("build/libs")
+	from files(sourceSets.main.output.classesDir)
+	from files(sourceSets.main.output.resourcesDir)
+	from { configurations.compile.collect { zipTree(it) } }
 
-    archiveName = "Osu-Skin-Customizer-${version}.jar"
+	archiveName = "Osu-Skin-Customizer-${version}.jar"
 
-    manifest {
-        attributes 'Main-Class': project.mainClassName
-    }
+	manifest {
+		attributes 'Main-Class': project.mainClassName
+	}
 }
 
-build.dependsOn dist
+task zip(type: Zip) {
+	delete("build/distributions")
+	from 'build/libs'
+	from 'assets'
+}
+
+build.dependsOn dist, zip
 
 eclipse {
     project {
