@@ -1,0 +1,44 @@
+{
+	"title": "Test Title",
+	"tabs": [
+		{
+			"tab": "Test Tab",
+			"index": 0,
+			"categories": [
+				{
+					"category": "Test Category",
+					"index": 0,
+					"addons": [
+						{
+							"addon": "Test Addon",
+							"index": 0,
+							"path": "Test Path"
+						},
+						{
+							"addon": "Test Addon 2",
+							"index": 1,
+							"path": "Test Path"
+						}
+					]
+				}
+			]
+		},
+		{
+			"tab": "Test Tab 2",
+			"index": 1,
+			"categories": [
+				{
+					"category": "Test Category",
+					"index": 0,
+					"addons": [
+						{
+							"addon": "Test Addon",
+							"index": 0,
+							"path": "Test Path"
+						}
+					]
+				}
+			]
+		}
+	]
+}
