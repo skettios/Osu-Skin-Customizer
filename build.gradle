@@ -46,7 +46,8 @@ task dist(type: Zip) {
 	from 'assets'
 }
 
-build.dependsOn compile, dist
+dist.dependsOn compile
+build.dependsOn dist
 
 eclipse {
     project {
