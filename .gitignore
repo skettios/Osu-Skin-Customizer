@@ -1,10 +1,5 @@
-.gradle/
-build/
-.settings/
-bin/
+dist/
+lib/
+out/
 
-.classpath
-.project
-*.iml
-*.ipr
 *.iws

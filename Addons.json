@@ -1,0 +1,12 @@
+[
+	{
+		"category": "Test Category",
+		"name": "Test Addon",
+		"path": "addons/Test"
+	},
+	{
+		"category": "Test Category",
+		"name": "Test Addon 2",
+		"path": "addons/Test-2"
+	}
+]
