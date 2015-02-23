@@ -1,9 +1,6 @@
 package com.skettios.osc.client;
 
-import com.google.gson.Gson;
-
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
 public class AddonContainer
@@ -45,10 +42,7 @@ public class AddonContainer
 
 	private void loadManifest(File manifest) throws IOException
 	{
-		System.out.println("Loading Manifest");
-
-		Gson gson = new Gson();
-		addonManifest = gson.fromJson(new FileReader(manifest), AddonManifest.class);
+		addonManifest = new AddonManifestParser(manifest).getManifest();
 	}
 
 	public AddonManifest getAddonManifest()
