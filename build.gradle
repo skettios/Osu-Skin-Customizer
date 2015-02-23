@@ -1,0 +1,52 @@
+apply plugin: 'distribution'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+    }
+}
+
+allprojects {
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+	apply plugin: 'java'
+	
+    ext {
+        appName = 'OsuSkinCustomizer'
+        buildNumber = System.getenv().get('BUILD_NUMBER') ?: 'dev'
+        releaseType = 'Alpha'
+    }
+
+    version = "1.0.${buildNumber}"
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile 'com.google.code.gson:gson:2.3.1'
+        compile 'commons-io:commons-io:2.4'
+    }
+}
+
+// The client the user will use to customize their skins.
+project(':Client') {
+    apply plugin: 'java'
+}
+
+// The builder the skin creater will use to create the addons
+project(':Builder') {
+    apply plugin: 'java'
+}
+
+distributions {
+    main {
+        baseName = "OsuSkinCustomizer"
+        contents {
+            from { 'Client/build/libs' }
+            from { 'Builder/build/libs' }
+        }
+    }
+}
