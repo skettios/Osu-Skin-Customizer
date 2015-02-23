@@ -46,7 +46,39 @@ distributions {
         baseName = "OsuSkinCustomizer"
         contents {
             from { 'Client/build/libs' }
-            from { 'Builder/build/libs' }
+            from ('Client/assets/addons') {
+                include "current.json"
+                include "settings.json"
+                into 'addons'
+            }
+
+//            from { 'Builder/build/libs' }
         }
     }
+}
+
+distTar {
+    archiveName "${appName}-${version}-${releaseType}.tar"
+}
+
+distZip {
+    archiveName "${appName}-${version}-${releaseType}.zip"
+}
+
+task dist() {
+    doFirst {
+        println "Compiling & Packaging for ${releaseType}"
+        delete('build/distributions')
+    }
+
+    doLast {
+        distTar.execute()
+        distZip.execute()
+    }
+}
+
+dist.dependsOn 'Client:dist', 'Builder:dist'
+
+tasks.eclipse.doLast {
+    delete ".project"
 }

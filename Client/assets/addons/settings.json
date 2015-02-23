@@ -1,38 +1,15 @@
 {
-    "title": "{Insert Title Here}",
-    "tabs": [
-        {
-            "tab": "{Insert Tab Here}",
-            "index": 0,
-            "categories": [
-                {
-                    "category": "{Insert Category Here} 1",
-                    "index": 0,
-                    "addons": [
-                        {
-                            "addon": "{Insert Addon Here} 1",
-                            "index": 0,
-                            "manifest": "{Insert Manifest Here}"
-                        },
-                        {
-                            "addon": "{Insert Addon Here} 2",
-                            "index": 1,
-                            "manifest": "{Insert Manifest Here}"
-                        }
-                    ]
-                },
-                {
-                    "category": "{Insert Category Here} 2",
-                    "index": 1,
-                    "addons": [
-                        {
-                            "addon": "{Insert Addon Here} 1",
-                            "index": 0,
-                            "manifest": "Test Addon/manifest.json"
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
+	"title": "{Insert Title Here}",
+	"tabs": [
+		{
+			"tab": "{Insert Tab Here}",
+			"index": 0,
+			"categories": [
+				{
+					"category": "{Insert Category Here}",
+					"index": 0
+				}
+			]
+		}
+	]
 }

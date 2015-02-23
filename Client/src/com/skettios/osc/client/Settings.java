@@ -42,7 +42,6 @@ class Category
 {
 	private String category;
 	private int index;
-	private Addon[] addons;
 
 	public String getName()
 	{
@@ -53,30 +52,35 @@ class Category
 	{
 		return index;
 	}
+}
 
-	public Addon[] getAddons()
+class Current
+{
+	private String tab;
+	private CurrentAddons[] addons;
+
+	public String getTab()
+	{
+		return tab;
+	}
+
+	public CurrentAddons[] getAddons()
 	{
 		return addons;
 	}
 }
 
-class Addon
+class CurrentAddons
 {
-	private String addon, manifest;
-	private int index;
+	private String category, name;
+
+	public String getCategory()
+	{
+		return category;
+	}
 
 	public String getName()
 	{
-		return addon;
-	}
-
-	public int getIndex()
-	{
-		return index;
-	}
-
-	public String getManifest()
-	{
-		return manifest;
+		return name;
 	}
 }
