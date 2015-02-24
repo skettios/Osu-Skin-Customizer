@@ -42,7 +42,7 @@ public class AddonContainer
 
 	private void loadManifest(File manifest) throws IOException
 	{
-		addonManifest = new AddonManifestParser(manifest).getManifest();
+		addonManifest = new AddonManifestParser(manifest).parseManifest().getManifest();
 	}
 
 	public AddonManifest getAddonManifest()

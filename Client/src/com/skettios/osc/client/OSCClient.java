@@ -159,9 +159,11 @@ public class OSCClient extends JFrame
 
 				for (AddonContainer addon : addonDiscovery.getAddons())
 				{
-					if (addon.getAddonManifest().getTab().equalsIgnoreCase(tabName) && addon.getAddonManifest().getCategory().equalsIgnoreCase(category.getName()))
-						comboBox.addItem(addon.getAddonManifest().getName());
-
+					if (addon != null)
+					{
+						if (addon.getAddonManifest().getTab().equalsIgnoreCase(tabName) && addon.getAddonManifest().getCategory().equalsIgnoreCase(category.getName()))
+							comboBox.addItem(addon.getAddonManifest().getName());
+					}
 					newAddonPanel.add(label);
 					newAddonPanel.add(comboBox);
 				}
@@ -337,7 +339,9 @@ public class OSCClient extends JFrame
 									{
 										if (path.contains("/"))
 										{
-											FileUtils.copyDirectoryToDirectory(new File("addons/" + addon.getAddonManifest().getName() + "/" + addon.getAddonManifest().getContentPath() + "/" + path), destDir);
+											int slashPos = path.indexOf('/');
+											String dirName = path.substring(0, slashPos);
+											FileUtils.copyDirectoryToDirectory(new File("addons/" + addon.getAddonManifest().getName() + "/" + addon.getAddonManifest().getContentPath() + "/" + dirName), destDir);
 										}
 										else
 										{
