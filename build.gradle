@@ -52,7 +52,7 @@ distributions {
                 into 'addons'
             }
 
-//            from { 'Builder/build/libs' }
+            from { 'Builder/build/libs' }
         }
     }
 }
