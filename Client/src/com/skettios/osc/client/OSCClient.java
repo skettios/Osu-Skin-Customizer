@@ -39,11 +39,11 @@ public class OSCClient extends JFrame {
 		mainPanel = new JPanel(new GridLayout());
 		tabs = new JTabbedPane();
 
-		tabList = new ArrayList<>();
-		categoryMap = new HashMap<>();
+		tabList = new ArrayList<Tab>();
+		categoryMap = new HashMap<String, ArrayList<Category>>();
 
-		currentSelectedInTab = new HashMap<>();
-		filesToDelete = new ArrayList<>();
+		currentSelectedInTab = new HashMap<String, HashMap<String, String>>();
+		filesToDelete = new ArrayList<String>();
 
 		sortTabs();
 		sortCategories();
@@ -83,7 +83,7 @@ public class OSCClient extends JFrame {
 
 	private void sortCategories() {
 		for (Tab tab : tabList) {
-			ArrayList<Category> ret = new ArrayList<>();
+			ArrayList<Category> ret = new ArrayList<Category>();
 			for (Category category : tab.getCategories())
 				ret.add(category);
 
@@ -98,11 +98,11 @@ public class OSCClient extends JFrame {
 		}
 	}
 
-	private void addTab(String tabName, int index) {
+	private void addTab(final String tabName, int index) {
 		JPanel newPanel = new JPanel();
 		JPanel newAddonPanel = new JPanel();
 		JScrollPane newAddons = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		JLabel previewLabel = new JLabel();
+		final JLabel previewLabel = new JLabel();
 		JButton buttonApply = new JButton("Apply");
 
 		newPanel.setName(tabName);
@@ -133,9 +133,9 @@ public class OSCClient extends JFrame {
 
 		if (categoryMap.get(tabName) != null || !categoryMap.get(tabName).isEmpty()) {
 
-			for (Category category : categoryMap.get(tabName)) {
+			for (final Category category : categoryMap.get(tabName)) {
 				JLabel label = new JLabel(category.getName());
-				JComboBox comboBox = new JComboBox();
+				final JComboBox comboBox = new JComboBox();
 
 				label.setAlignmentX(CENTER_ALIGNMENT);
 
@@ -156,7 +156,7 @@ public class OSCClient extends JFrame {
 							if (currentSelectedInTab.get(tabName) != null)
 								currentSelectedInTab.get(tabName).put(category.getName(), name);
 						} else {
-							HashMap<String, String> addonMap = new HashMap<>();
+							HashMap<String, String> addonMap = new HashMap<String,String>();
 							addonMap.put(category.getName(), name);
 							currentSelectedInTab.put(tabName, addonMap);
 						}
@@ -181,7 +181,7 @@ public class OSCClient extends JFrame {
 			Current[] currentAddons = gson.fromJson(new FileReader(json), Current[].class);
 			if (currentAddons != null) {
 				for (Current current : currentAddons) {
-					HashMap<String, String> addons = new HashMap<>();
+					HashMap<String, String> addons = new HashMap<String, String>();
 					if (current.getAddons() != null) {
 						for (CurrentAddons addon : current.getAddons())
 							addons.put(addon.getCategory(), addon.getName());
@@ -266,7 +266,7 @@ public class OSCClient extends JFrame {
 			File destDir = new File(".");
 			for (Tab tab : settings.getTabs()) {
 				if (currentSelectedInTab.containsKey(tab.getName())) {
-					ArrayList<String> list = new ArrayList<>(currentSelectedInTab.get(tab.getName()).values());
+					ArrayList<String> list = new ArrayList<String>(currentSelectedInTab.get(tab.getName()).values());
 					if (list != null || !list.isEmpty()) {
 						for (String string : list) {
 							for (AddonContainer addon : addonDiscovery.getAddons()) {

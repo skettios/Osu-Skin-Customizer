@@ -9,7 +9,7 @@ public class AddonDiscovery {
 
 	public AddonDiscovery(File addonDir) {
 		this.addonDir = addonDir;
-		addons = new ArrayList<>();
+		addons = new ArrayList<AddonContainer>();
 	}
 
 	public AddonDiscovery(String addonDir) {
