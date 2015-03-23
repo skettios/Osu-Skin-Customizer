@@ -1,15 +1,15 @@
 {
-	"title": "{Insert Title Here}",
-	"tabs": [
-		{
-			"tab": "{Insert Tab Here}",
-			"index": 0,
-			"categories": [
-				{
-					"category": "{Insert Category Here}",
-					"index": 0
-				}
-			]
-		}
-	]
+  "title": "{Insert Title Here}",
+  "tabs": [
+    {
+      "tab": "{Insert Tab Here}",
+      "index": 0,
+      "categories": [
+        {
+          "category": "{Insert Category Here}",
+          "index": 0
+        }
+      ]
+    }
+  ]
 }

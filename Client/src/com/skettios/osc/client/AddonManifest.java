@@ -1,32 +1,26 @@
 package com.skettios.osc.client;
 
-public class AddonManifest
-{
+public class AddonManifest {
 	private String addon, tab, category, contentPath;
 	private String[] files;
 
-	public String getName()
-	{
+	public String getName() {
 		return addon;
 	}
 
-	public String getTab()
-	{
+	public String getTab() {
 		return tab;
 	}
 
-	public String getCategory()
-	{
+	public String getCategory() {
 		return category;
 	}
 
-	public String getContentPath()
-	{
+	public String getContentPath() {
 		return contentPath;
 	}
 
-	public String[] getFiles()
-	{
+	public String[] getFiles() {
 		return files;
 	}
 }
